@@ -1,0 +1,11 @@
+<!-- app/templates/index.html -->
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>Welcome to the Model Building Platform</h1>
+<p>Start by uploading your data or building a model.</p>
+<!-- Add this to your index.html -->
+<a href="{{ url_for('main.evaluate_model_route', file_path='cleaned_iris.csv') }}" class="btn btn-primary">Evaluate Model</a>
+
+{% endblock %}
+

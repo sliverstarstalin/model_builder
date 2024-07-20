@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Clean Data</h1>
+  <form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="missing_values_strategy">Missing Values Strategy</label>
+      {{ form.missing_values_strategy(class="form-control") }}
+    </div>
+
+    <div class="form-group">
+      <label for="duplicate_handling_strategy">Duplicate Handling Strategy</label>
+      {{ form.duplicate_handling_strategy(class="form-control") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.remove_duplicates.label(class="form-check-label") }}
+      {{ form.remove_duplicates(class="form-check-input") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.remove_outliers.label(class="form-check-label") }}
+      {{ form.remove_outliers(class="form-check-input") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.normalize.label(class="form-check-label") }}
+      {{ form.normalize(class="form-check-input") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.standardize.label(class="form-check-label") }}
+      {{ form.standardize(class="form-check-input") }}
+    </div>
+
+    <div class="form-group">
+      {{ form.encode_categorical.label(class="form-check-label") }}
+      {{ form.encode_categorical(class="form-check-input") }}
+    </div>
+
+    <div class="form-group">
+      <label for="encoding_strategy">Encoding Strategy</label>
+      {{ form.encoding_strategy(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Clean Data</button>
+  </form>
+
+  <h2>Data Metrics</h2>
+
+  <h3>Missing Values</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column</th>
+        <th>Missing Values</th>
+        <th>Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for column, missing in metrics.missing_values.items() %}
+      <tr>
+        <td>{{ column }}</td>
+        <td>{{ missing }}</td>
+        <td>{{ metrics.missing_percentage[column] }}%</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Outliers</h3>
+  <p>Total Outliers Detected: {{ metrics.outliers }}</p>
+
+  <h3>Data Distribution</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        {% for column in metrics.data_distribution %}
+        <th>{{ column }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {% for column, stats in metrics.data_distribution.items() %}
+        <td>
+          <ul>
+            {% for stat, value in stats.items() %}
+            <li>{{ stat }}: {{ value }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Categorical Data</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column</th>
+        <th>Unique Values</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for column, unique in metrics.categorical_data.items() %}
+      <tr>
+        <td>{{ column }}</td>
+        <td>{{ unique }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Data Types</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Column</th>
+        <th>Data Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for column, dtype in metrics.data_types.items() %}
+      <tr>
+        <td>{{ column }}</td>
+        <td>{{ dtype }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

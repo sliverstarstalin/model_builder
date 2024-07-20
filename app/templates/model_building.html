@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Build Model</h1>
+  <form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="model_type">Model Type</label>
+      {{ form.model_type(class="form-control") }}
+      <small class="form-text text-muted">
+        Choose the type of model you want to build:
+        <ul>
+          <li><b>Linear Regression:</b> Used for predicting a continuous target variable.</li>
+          <li><b>Logistic Regression:</b> Used for binary classification problems.</li>
+          <li><b>Decision Tree:</b> A tree-like model used for classification and regression tasks.</li>
+          <li><b>Random Forest:</b> An ensemble model that builds multiple decision trees for better accuracy.</li>
+          <li><b>KMeans:</b> An unsupervised learning algorithm for clustering data into groups.</li>
+        </ul>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="target_column">Target Column</label>
+      {{ form.target_column(class="form-control") }}
+      <small class="form-text text-muted">
+        Specify the column name in your dataset that you want to predict (for supervised learning).
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="test_size">Test Size</label>
+      {{ form.test_size(class="form-control") }}
+      <small class="form-text text-muted">
+        Specify the proportion of the dataset to include in the test split. E.g., 0.2 for 20% test data.
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Build Model</button>
+  </form>
+
+  {% if model_performance %}
+  <h2>Model Performance</h2>
+  <p>Performance: {{ model_performance }}</p>
+  {% endif %}
+{% endblock %}

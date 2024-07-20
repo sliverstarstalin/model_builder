@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Evaluate Model</h1>
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.model_type.label }} {{ form.model_type }}
+    </div>
+    <div class="form-group">
+      {{ form.target_column.label }} {{ form.target_column }}
+    </div>
+    <div class="form-group">
+      {{ form.test_size.label }} {{ form.test_size }}
+    </div>
+    <button type="submit" class="btn btn-primary">Evaluate Model</button>
+  </form>
+
+  {% if evaluation_metrics %}
+    <h2>Evaluation Metrics</h2>
+    <ul>
+      {% for metric, value in evaluation_metrics.items() %}
+        <li>{{ metric }}: {{ value }}</li>
+      {% endfor %}
+    </ul>
+    <h2>Confusion Matrix</h2>
+    <img src="{{ url_for('main.upload', file_path=confusion_matrix_path) }}" alt="Confusion Matrix">
+    <h2>ROC Curve</h2>
+    <img src="{{ url_for('main.upload', file_path=roc_curve_path) }}" alt="ROC Curve">
+  {% endif %}
+{% endblock %}
